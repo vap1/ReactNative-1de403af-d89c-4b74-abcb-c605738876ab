@@ -1,33 +1,32 @@
 
-import React, { useEffect, useState } from 'react';
-import { View, Text, Button } from 'react-native';
-import { APIService } from '../services/APIService';
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
 const HomeScreen: React.FC = () => {
-  const [leads, setLeads] = useState([]);
-
-  useEffect(() => {
-    fetchLeads();
-  }, []);
-
-  const fetchLeads = async () => {
-    try {
-      const response = await APIService.getLeads();
-      setLeads(response.data);
-    } catch (error) {
-      console.error('Error fetching leads:', error);
-    }
-  };
-
   return (
-    <View>
-      <Text>Welcome to the Home Screen!</Text>
-      <Button title="Fetch Leads" onPress={fetchLeads} />
-      {leads.map((lead: any) => (
-        <Text key={lead.id}>{lead.name}</Text>
-      ))}
+    <View style={styles.container}>
+      <Text style={styles.title}>Welcome to the SAAS Platform</Text>
+      <Text style={styles.description}>This app is designed to streamline the onboarding process, facilitate employee management, and enable efficient task assignment for every lead or opportunity.</Text>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  description: {
+    fontSize: 16,
+    textAlign: 'center',
+  },
+});
 
 export default HomeScreen;
