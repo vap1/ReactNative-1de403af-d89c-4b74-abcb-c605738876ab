@@ -1,25 +1,15 @@
 
 import axios from 'axios';
+import { UserRegistrationRequest, UserRegistrationResponse } from '../types/UserTypes';
 
-const BASE_URL = 'https://api.example.com'; // Replace with your actual API base URL
+const BASE_URL = 'https://api.example.com'; // Replace with your API base URL
 
-export interface UserRegistrationRequest {
-  username: string;
-  password: string;
-  email: string;
-  role: string;
-}
-
-export interface UserRegistrationResponse {
-  success: boolean;
-  errorMessage?: string;
-}
-
-export async function registerUser(request: UserRegistrationRequest): Promise<UserRegistrationResponse> {
+export const registerUser = async (request: UserRegistrationRequest): Promise<UserRegistrationResponse> => {
   try {
-    const response = await axios.post<UserRegistrationResponse>(`${BASE_URL}/register`, request);
+    const response = await axios.post(`${BASE_URL}/register`, request);
     return response.data;
   } catch (error) {
-    throw new Error('Failed to register user');
+    console.error('Error registering user:', error);
+    throw error;
   }
-}
+};
