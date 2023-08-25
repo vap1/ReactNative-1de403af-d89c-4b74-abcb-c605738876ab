@@ -7,32 +7,15 @@ export interface Lead {
   status: string;
 }
 
-export interface LeadCreationRequest {
-  contactDetails: string;
-  relevantInfo: string;
-}
-
-export interface LeadUpdateRequest {
-  leadId: string;
-  contactDetails?: string;
-  relevantInfo?: string;
-  assignedTo?: string;
-  status?: string;
-}
-
-export interface LeadApiResponse {
+export interface LeadResponse {
   success: boolean;
   errorMessage?: string;
 }
 
-export interface LeadListApiResponse {
-  leads: Lead[];
-}
-
-export interface LeadCreationApiResponse extends LeadApiResponse {
-  lead: Lead;
-}
-
-export interface LeadUpdateApiResponse extends LeadApiResponse {
-  updatedLead: Lead;
+export interface LeadRequest {
+  leadId: string;
+  contactDetails: string;
+  relevantInfo: string;
+  assignedTo: string;
+  status: string;
 }
