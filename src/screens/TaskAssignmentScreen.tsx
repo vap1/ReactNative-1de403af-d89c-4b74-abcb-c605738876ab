@@ -1,8 +1,8 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList } from 'react-native';
-import { Task } from '../models/Task';
-import { getTasks } from '../api/TaskApi';
+import { View, Text, StyleSheet } from 'react-native';
+import { Task } from '../types/TaskTypes';
+import { getTasks } from '../apis/TaskApi';
 
 const TaskAssignmentScreen: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -13,31 +13,51 @@ const TaskAssignmentScreen: React.FC = () => {
 
   const fetchTasks = async () => {
     try {
-      const tasksResponse = await getTasks();
-      setTasks(tasksResponse);
+      const response = await getTasks();
+      setTasks(response);
     } catch (error) {
       console.error('Error fetching tasks:', error);
     }
   };
 
-  const renderTaskItem = ({ item }: { item: Task }) => (
-    <View>
-      <Text>{item.title}</Text>
-      <Text>{item.description}</Text>
-      {/* Render other task details */}
-    </View>
-  );
-
   return (
-    <View>
-      <Text>Task Assignment Screen</Text>
-      <FlatList
-        data={tasks}
-        renderItem={renderTaskItem}
-        keyExtractor={(item) => item.id.toString()}
-      />
+    <View style={styles.container}>
+      <Text style={styles.title}>Task Assignment</Text>
+      {tasks.map((task) => (
+        <View key={task.taskId} style={styles.taskContainer}>
+          <Text style={styles.taskAssignedTo}>{task.assignedTo}</Text>
+          <Text style={styles.taskStatus}>{task.status}</Text>
+          <Text style={styles.taskComments}>{task.comments}</Text>
+        </View>
+      ))}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  taskContainer: {
+    marginBottom: 16,
+  },
+  taskAssignedTo: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  taskStatus: {
+    fontSize: 14,
+    color: 'gray',
+  },
+  taskComments: {
+    fontSize: 14,
+  },
+});
 
 export default TaskAssignmentScreen;
